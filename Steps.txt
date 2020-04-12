@@ -1,0 +1,25 @@
+So we shall not go in the depth of how the attck works in this txt file. This file is just a short notes on how to attck is monted. 
+
+Refer here: https://cr.yp.to/antiforgery/cachetiming-20050414.pdf
+
+In the AES we have a array lookup T0[k[0] xor n[0]] now this is a array lookup and the time of aes depends on this lookup; so AES Timing can leak info in k[0] xor n[0]; (k is the Key and n is the Plain Text; not are 16 bytes so n[0] is one byte).
+So one can deduce the exact value of k[0] using the distribution of AES timings as a function of n[0]. Similarly for all k[0] to k[15].
+
+
+To say this simply: 
+1) Attacker watches the time taken by AES for many n's
+2) Total the AES times for each possible n[13] (or any other n[i])
+3) Observes the overall AES is max when n[13] is 147
+
+Now the Attckers gets access to a computer with the exact same specification and does the same with a known keys. Here he observes he gets a max with n[13] xor k[13] = 8.
+So we can conclude that k[13] = 147 xor 8 = 155.
+
+
+Steps to Run:
+
+Follow the steps in section 5 and section 6 to perfeorm the attack. Take the IP as 0.0.0.0 as we are running on our own systems.
+
+
+Once you get the output of correlate, check it in attack. This step will show the possible key values for each k[0] to k[15], I'm getting all 255 values for all of them.  
+
+
